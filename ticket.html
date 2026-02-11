@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Eventnic | Ticket Booking</title>
+    <link rel="stylesheet" href="ticket.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container">
+           <div class="logo">
+          <img src="EVENTNIC LOGO - Copy.jpg" width="160" height="50" alt="Eventnic - Home">
+                
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="#" class="active">Events</a></li>
+                    <li><a href="index.html">About</a></li>
+                    <li><a href="contactus.html">Contact</a></li>
+                </ul>
+            </nav>
+            <div class="cart-icon">
+                <i class="fas fa-shopping-cart"></i>
+                <span id="cart-count">0</span>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="container">
+        <!-- Events Section -->
+        <section class="events-section">
+            <h2>Available Events</h2>
+            <p class="section-subtitle">Discover amazing events and book your tickets</p>
+            
+            <div class="events-filter">
+                <button class="filter-btn active" data-filter="all">All Events</button>
+                <button class="filter-btn" data-filter="music">Music</button>
+                <button class="filter-btn" data-filter="sports">Sports</button>
+                <button class="filter-btn" data-filter="arts">Arts & Culture</button>
+                <button class="filter-btn" data-filter="conference">Conferences</button>
+            </div>
+            
+            <div class="events-grid" id="events-container">
+                <!-- Events will be loaded dynamically via JavaScript -->
+            </div>
+        </section>
+        
+        <!-- Ticket Details Modal -->
+        <div id="ticket-modal" class="modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2 id="modal-event-title">Event Title</h2>
+                    <button class="close-modal">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <div class="event-details">
+                        <div class="event-image">
+                            <img id="modal-event-image" src="" alt="Event Image">
+                        </div>
+                        <div class="event-info">
+                            <p><i class="fas fa-calendar"></i> <span id="modal-event-date">Date</span></p>
+                            <p><i class="fas fa-clock"></i> <span id="modal-event-time">Time</span></p>
+                            <p><i class="fas fa-map-marker-alt"></i> <span id="modal-event-location">Location</span></p>
+                            <p><i class="fas fa-info-circle"></i> <span id="modal-event-description">Description</span></p>
+                        </div>
+                    </div>
+                    
+                    <div class="ticket-options">
+                        <h3>Select Tickets</h3>
+                        <div id="ticket-types-container">
+                            <!-- Ticket types will be loaded dynamically -->
+                        </div>
+                        <div class="total-section">
+                            <p>Total: <span id="total-price">GH₵0.00</span></p>
+                            <button id="proceed-to-payment" class="btn-primary">Proceed to Payment</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Payment Method Selection Modal -->
+        <div id="payment-method-modal" class="modal">
+            <div class="modal-content payment-method-modal">
+                <div class="modal-header">
+                    <h2>Select Payment Method</h2>
+                    <button class="close-payment-method-modal">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <div class="payment-summary">
+                        <h3>Order Summary</h3>
+                        <div id="order-summary">
+                            <!-- Order summary will be loaded dynamically -->
+                        </div>
+                        <div class="summary-total">
+                            <p>Total: <span id="order-total">GH₵0.00</span></p>
+                        </div>
+                    </div>
+                    
+                    <div class="payment-methods">
+                        <h3>Choose Payment Method</h3>
+                        <div class="method-options">
+                            <div class="method-option active" data-method="mobile-money">
+                                <div class="method-icon">
+                                    <i class="fas fa-mobile-alt"></i>
+                                </div>
+                                <div class="method-info">
+                                    <h4>Mobile Money</h4>
+                                    <p>Pay with MTN Momo, Vodafone Cash, or AirtelTigo Money</p>
+                                </div>
+                                <div class="method-check">
+                                    <i class="fas fa-check-circle"></i>
+                                </div>
+                            </div>
+                            
+                            <div class="method-option" data-method="card">
+                                <div class="method-icon">
+                                    <i class="fas fa-credit-card"></i>
+                                </div>
+                                <div class="method-info">
+                                    <h4>Credit/Debit Card</h4>
+                                    <p>Pay with Visa, Mastercard, or American Express</p>
+                                </div>
+                                <div class="method-check">
+                                    <i class="fas fa-check-circle"></i>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <button id="continue-to-payment-details" class="btn-primary">Continue with Selected Method</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Mobile Money Payment Modal -->
+        <div id="mobile-money-modal" class="modal">
+            <div class="modal-content payment-modal">
+                <div class="modal-header">
+                    <h2>Mobile Money Payment</h2>
+                    <button class="close-mobile-money-modal">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <div class="payment-summary">
+                        <h3>Order Summary</h3>
+                        <div id="mobile-money-summary">
+                            <!-- Order summary will be loaded dynamically -->
+                        </div>
+                        <div class="summary-total">
+                            <p>Total: <span id="mobile-money-total">GH₵0.00</span></p>
+                        </div>
+                    </div>
+                    
+                    <form id="mobile-money-form">
+                        <h3>Mobile Money Details</h3>
+                        
+                        <div class="form-group">
+                            <label for="mobile-provider">Mobile Network</label>
+                            <select id="mobile-provider" required>
+                                <option value="">Select your network</option>
+                                <option value="mtn">MTN Mobile Money</option>
+                                <option value="vodafone">Vodafone Cash</option>
+                                <option value="airteltigo">AirtelTigo Money</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="mobile-number">Mobile Number</label>
+                            <input type="tel" id="mobile-number" placeholder="e.g., 054 123 4567" required>
+                            <p class="input-hint">Enter the number registered with your mobile money account</p>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="mobile-name">Account Name</label>
+                            <input type="text" id="mobile-name" placeholder="Name on mobile money account" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="mobile-email">Email Address (Optional)</label>
+                            <input type="email" id="mobile-email" placeholder="you@example.com">
+                            <p class="input-hint">For sending payment confirmation</p>
+                        </div>
+                        
+                        <div class="payment-instructions">
+                            <h4><i class="fas fa-info-circle"></i> How to complete payment:</h4>
+                            <ol>
+                                <li>Click "Confirm Payment" below</li>
+                                <li>You will receive a prompt on your phone</li>
+                                <li>Enter your mobile money PIN to authorize payment</li>
+                                <li>Wait for payment confirmation</li>
+                            </ol>
+                        </div>
+                        
+                        <button type="submit" class="btn-primary" id="confirm-mobile-money">Confirm Payment</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Card Payment Modal -->
+        <div id="card-payment-modal" class="modal">
+            <div class="modal-content payment-modal">
+                <div class="modal-header">
+                    <h2>Card Payment</h2>
+                    <button class="close-card-modal">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <div class="payment-summary">
+                        <h3>Order Summary</h3>
+                        <div id="card-payment-summary">
+                            <!-- Order summary will be loaded dynamically -->
+                        </div>
+                        <div class="summary-total">
+                            <p>Total: <span id="card-payment-total">GH₵0.00</span></p>
+                        </div>
+                    </div>
+                    
+                    <form id="card-payment-form">
+                        <h3>Card Details</h3>
+                        <div class="form-group">
+                            <label for="card-name">Full Name on Card</label>
+                            <input type="text" id="card-name" placeholder="John Doe" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="card-number">Card Number</label>
+                            <input type="text" id="card-number" placeholder="1234 5678 9012 3456" required>
+                            <div class="card-icons">
+                                <i class="fab fa-cc-visa"></i>
+                                <i class="fab fa-cc-mastercard"></i>
+                                <i class="fab fa-cc-amex"></i>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="expiry-date">Expiry Date</label>
+                                <input type="text" id="expiry-date" placeholder="MM/YY" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="cvv">CVV</label>
+                                <input type="text" id="cvv" placeholder="123" required>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Email Address</label>
+                            <input type="email" id="email" placeholder="you@example.com" required>
+                            <p class="input-hint">For sending payment confirmation and e-tickets</p>
+                        </div>
+                        
+                        <div class="security-note">
+                            <p><i class="fas fa-lock"></i> Your payment is secured with SSL encryption. We do not store your card details.</p>
+                        </div>
+                        
+                        <button type="submit" class="btn-primary" id="confirm-card-payment">Confirm Payment</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Confirmation Modal -->
+        <div id="confirmation-modal" class="modal">
+            <div class="modal-content confirmation-modal">
+                <div class="confirmation-icon">
+                    <i class="fas fa-check-circle"></i>
+                </div>
+                <h2>Payment Successful!</h2>
+                <p>Your tickets have been booked successfully. A confirmation email has been sent to your inbox.</p>
+                <p>Your booking ID: <strong id="booking-id">EVT-2023-78945</strong></p>
+                <div class="confirmation-details">
+                    <p><i class="fas fa-ticket-alt"></i> E-tickets attached to confirmation email</p>
+                    <p><i class="fas fa-download"></i> You can also download tickets from "My Tickets" section</p>
+                </div>
+                <button id="return-to-events" class="btn-primary">Return to Events</button>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>Eventnic Ghana</h3>
+                    <p>Your gateway to amazing events and experiences. Find, book, and enjoy!</p>
+                    <div class="payment-badges">
+                        <div class="payment-badge">MTN</div>
+                        <div class="payment-badge">Vodafone</div>
+                        <div class="payment-badge">Visa</div>
+                        <div class="payment-badge">Mastercard</div>
+                    </div>
+                </div>
+                <div class="footer-section">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="#">Browse Events</a></li>
+                        <li><a href="#">Sell Tickets</a></li>
+                        <li><a href="#">Help Center</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Contact Us</h4>
+                    <p><i class="fas fa-envelope"></i> support@eventnic.com.gh</p>
+                    <p><i class="fas fa-phone"></i> +233 (0) 55 123 4567</p>
+                    <p><i class="fas fa-map-marker-alt"></i> Accra, Ghana</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2023 Eventnic Ghana. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="ticket.js"></script>
+</body>
+</html>
